@@ -37,9 +37,9 @@ fs.readdir(eventDir, (err, files) => {
 })
 
 client.on('ready', async () => {
-    console.log('rekking noobs in bedwars');
-    client.user.setActivity('https://www.twitch.tv/amestonmc', {
-        type: 'WATCHING'
+    console.log('Bot is ready!');
+    client.user.setActivity('mc.hypixel.net', {
+        type: 'PLAYING'
     })
 })
 
