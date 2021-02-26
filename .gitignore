@@ -1,0 +1,6 @@
+# Folders
+node_modules/
+
+# Files
+config.json
+log.txt
