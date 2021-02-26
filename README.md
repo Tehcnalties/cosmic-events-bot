@@ -1,10 +1,6 @@
-# botston
-custom bot made for the legendary ameston
+# Cosmic Events
 
-MAKE SURE TO RUN npm i BEFORE STARTING THE BOT TO DOWNLOAD ALL MODULES!!!
+Join the server at https://discord.gg/TJx7MzETnd!
 
-Bot developed by Atrek#3392 and CaptainCookie886#1186.
-
-To get started, go to the file config.json.example and create a file called "config.json" and follow the given format.
-
-If you are a developer and need the information for Botston, contact CaptainCookie886#1186.
+If you are a developer, please contact CaptainCookie886#1186 for the bot token and MongoDB information.
+If you would like to use the bot's code, create a config.json following the format given in config.json.example.
