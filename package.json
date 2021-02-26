@@ -1,0 +1,28 @@
+{
+  "name": "botston",
+  "version": "1.0.0",
+  "description": "Custom bot made for Ameston",
+  "main": "index.js",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "discord.js": "^12.5.1",
+    "moment": "^2.29.1",
+    "mongodb": "^3.6.3",
+    "mongoose": "^5.11.18",
+    "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tehcnalties/botston.git"
+  },
+  "author": "Atrek#3392 & CaptainCookie886#1186",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tehcnalties/botston/issues"
+  },
+  "homepage": "https://github.com/Tehcnalties/botston#readme"
+}
