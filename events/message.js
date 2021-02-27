@@ -6,8 +6,12 @@ const Guild = require('../models/guild')
 
 module.exports = async (client, message) => {
     const cooldowns = new Discord.Collection();
+    let prefix = ''
 
-    const settings = await Guild.findOne({
+    if(message.guild === null) {
+        prefix = config.prefix
+    } else {
+            const settings = await Guild.findOne({
         guildID: message.guild.id
     }, (err, guild) => {
         if(err) client.logger.error(err)
@@ -28,7 +32,8 @@ module.exports = async (client, message) => {
         }
     })
 
-    let prefix = settings.prefix
+    prefix = settings.prefix
+    }
 
     const args = message.content
         .slice(prefix.length)
@@ -84,5 +89,9 @@ module.exports = async (client, message) => {
         message.reply('there was an error trying to run that command! If this keeps happening, please contact a developer.')
     }
 
-    client.logger.cmd(`Command ${command.name} was ran by ${message.author.tag} in ${message.guild.id}`)
+    if(message.guild === null) {
+        client.logger.cmd(`Command ${command.name} was ran by ${message.author.tag} in DMs`)
+    } else{
+        client.logger.cmd(`Command ${command.name} was ran by ${message.author.tag} in ${message.guild.id}`)
+    }
 }
