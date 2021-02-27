@@ -28,7 +28,7 @@ module.exports = async (client, message) => {
         }
     })
 
-    const prefix = settings.prefix
+    let prefix = settings.prefix
 
     const args = message.content
         .slice(prefix.length)
@@ -51,7 +51,7 @@ module.exports = async (client, message) => {
         let reply = `You didn't provide any arguments, ${message.author}!`
 
         if(command.usage) {
-            reply += `\nThe proper usage for this command would be:\n\`+${command.name} ${command.usage}\``
+            reply += `\nThe proper usage for this command would be:\n\`${prefix}${command.name} ${command.usage}\``
         }
 
         return message.channel.send(reply)
