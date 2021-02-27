@@ -1,0 +1,34 @@
+const mongoose = require('mongoose')
+const Status = require('../models/status')
+
+module.exports = async (client) => {
+
+    const settings = await Status.findOne({
+        id: 'COSMIC_BOT_STATUS'
+    }, (err, guild) => {
+        if(err) client.logger.error(err)
+        if(!guild) {
+            const newStatus = new Status({
+                _id: mongoose.Types.ObjectId(),
+                guildID: '',
+                type: '',
+                message: '',
+                id: 'COSMIC_BOT_STATUS'
+            })
+
+            newStatus.save()
+                .then(result => client.logger.log(result))
+                .catch(err => client.logger.error(err))
+
+            return client.logger.log(':x: Your server was not registered in our database, and was just registered.')
+        }
+    })
+
+    const activityType = settings.type
+    const activityMessage = settings.message
+
+    client.logger.log('Bot is ready!');
+    client.user.setActivity(activityMessage, {
+        type: activityType
+    })
+}

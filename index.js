@@ -36,12 +36,5 @@ fs.readdir(eventDir, (err, files) => {
     })
 })
 
-client.on('ready', async () => {
-    console.log('Bot is ready!');
-    client.user.setActivity('mc.hypixel.net', {
-        type: 'PLAYING'
-    })
-})
-
 client.mongoose.init();
 client.login(token)
