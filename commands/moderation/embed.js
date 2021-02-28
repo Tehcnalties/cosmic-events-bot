@@ -2,6 +2,7 @@ const Discord = require('discord.js')
 
 module.exports = {
     name: 'embed',
+    category: 'general',
     args: false,
     guildOnly: true,
     async execute(client, message, args) {
