@@ -4,7 +4,7 @@ module.exports = {
     guildOnly: true,
     async execute(client, message, args) {
         client.on("message", async msg => {
-           if(msg.content === '+embed') {
+           if(msg.content === 'embed') {
     const promptTitle = new Discord.MessageEmbed() 
       .setDescription('Enter the `title` of your custom embed\n(Type `null` if you do not want a title)');
     const promptDescription = new Discord.MessageEmbed() 
