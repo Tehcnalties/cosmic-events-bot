@@ -15,7 +15,7 @@ module.exports = {
 
         if(!channel) return message.channel.send(':x: I cannot find that channel!')
 
-        await Guild.findOne({
+        const settings = await Guild.findOne({
             guildID: message.guild.id
         }, async (err, guild) => {
             if(err) client.logger.error(err)
@@ -33,13 +33,13 @@ module.exports = {
                     .catch(err => client.logger.error(err))
 
                 return message.channel.send(`Moderation logging channel has been set to ${channel}.`)
-            } else {
-                Guild.updateOne({
-                    modlogID: channel.id
-                }).then(result => client.logger.log(result)).catch(err => client.logger.error(err))
-
-                return message.channel.send(`Moderation logging channel has been set to ${channel}.`)
             }
+            
+            await settings.updateOne({
+                modlogID: channel.id
+            }).then(result => client.logger.log(`Updated moderation logging channel for ${message.guild.name} (${message.guild.id})`)).catch(err => client.logger.error(err))
+
+            return message.channel.send(`Moderation logging channel has been set to ${channel}.`)
         })
     }
 }

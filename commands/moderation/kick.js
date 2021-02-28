@@ -1,4 +1,6 @@
 const Discord = require('discord.js')
+const mongoose = require('mongoose')
+const Guild = require('../../models/guild')
 
 module.exports = {
     name: 'kick',

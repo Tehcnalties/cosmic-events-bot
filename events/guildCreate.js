@@ -8,7 +8,7 @@ module.exports = async (client, guild) => {
         guildID: guild.id,
         guildName: guild.name,
         prefix: config.prefix,
-        modlog: '',
+        modlog: ''
     })
 
     guild.save()
