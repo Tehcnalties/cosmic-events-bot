@@ -13,6 +13,7 @@ module.exports = {
 
         const params = message.content.split(' ').slice(1)
         let user = message.mentions.users.first()
+        const mmember = message.mentions.members.first()
         let reason = params.slice(1).join(' ')
 
         const settings = await Guild.findOne({
@@ -56,6 +57,12 @@ module.exports = {
         if(!reason) {
             reason = 'No reason specified'
         }
+
+        // Highest role check
+        const authorHighest = message.member.cache.roles.highest
+        const userHighest = mmember.cache.roles.highest
+
+        
 
         if(!message.guild.member(user).bannable) return message.channel.send(':x: I can\'t ban this user!')
         user.send(`You have been banned from \`${message.guild.name}\` with reason: ${reason}.`).catch(() => client.logger.log(`Can't send DM to ${user.username}!`))
