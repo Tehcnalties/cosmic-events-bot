@@ -47,10 +47,10 @@ module.exports = {
               if(question == 4 && (value.content.toLowerCase(value.content) === 'y' || value.content.toLowerCase(value.content) === 'yes')) {
                 embed.setTimestamp(message.createdTimestamp)
               }
-              if(question == 5 && value.content != 'null') {
+              if(question == 5 && value.content != 'null' && (value.content.includes('cdn.discordapp.com') || value.content.includes('tenor.com'))) {
                 embed.setThumbnail(value.content)
               }
-              if(question == 6 && value.content != 'null') {
+              if(question == 6 && value.content != 'null' && (value.content.includes('cdn.discordapp.com') || value.content.includes('tenor.com'))) {
                 embed.setImage(value.content)
               }
               if(question == 7) {
