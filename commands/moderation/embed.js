@@ -1,5 +1,5 @@
 module.exports = {
-    name: '',
+    name: 'embed',
     args: false,
     guildOnly: true,
     async execute(client, message, args) {
@@ -61,8 +61,9 @@ module.exports = {
             }
        })
     })
-           })
+           
    
   }
+        })
     }
 }
