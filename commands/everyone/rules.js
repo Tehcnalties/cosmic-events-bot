@@ -3,6 +3,7 @@ const { execute } = require('../moderation/purge')
 
 module.exports = {
     name: 'rules',
+    category: 'general',
     args: false,
     guildOnly: false,
     async execute(client, message, args) {

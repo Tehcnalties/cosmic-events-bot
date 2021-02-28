@@ -5,6 +5,7 @@ const config = require('../../config.json')
 
 module.exports = {
     name: 'status',
+    category: 'admin',
     args: true,
     guildOnly: true,
     usage: '[PLAYING/WATCHING/STREAMING] [Message]',

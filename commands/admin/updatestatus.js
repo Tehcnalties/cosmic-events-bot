@@ -3,6 +3,7 @@ const Status = require('../../models/status')
 
 module.exports = {
     name: 'updatestatus',
+    category: 'admin',
     args: false,
     guildOnly: false,
     async execute(client, message, args) {

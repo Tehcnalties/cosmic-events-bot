@@ -5,6 +5,7 @@ const config = require('../../config.json')
 
 module.exports = {
     name: 'prefix',
+    category: 'admin',
     args: false,
     guildOnly: true,
     usage: '[New Prefix]',

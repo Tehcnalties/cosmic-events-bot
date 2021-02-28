@@ -1,6 +1,6 @@
 module.exports = {
     name: 'reload',
-    category: 'Developers',
+    category: 'developer',
     description: 'Reloads a command',
     guildOnly: true,
     args: true,

@@ -5,6 +5,7 @@ const { execute } = require('../moderation/kick')
 
 module.exports = {
     name: 'help',
+    categroy: 'general',
     args: false,
     guildOnly: false,
     aliases: ['commands'],
