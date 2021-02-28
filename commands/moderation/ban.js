@@ -52,6 +52,7 @@ module.exports = {
             }
         }
 
+        if(user === message.guild.owner) return message.channel.send('You can\'t ban the owner!')
         if(user === message.author) return message.channel.send('Why are you trying to ban yourself?')
         if(user === undefined) return message.channel.send('Please specify a user!')
         if(!reason) {
@@ -59,8 +60,8 @@ module.exports = {
         }
 
         // Highest role check
-        const authorHighest = message.member.cache.roles.highest
-        const userHighest = mmember.cache.roles.highest
+        // const authorHighest = message.member.cache.roles.highest
+        // const userHighest = mmember.cache.roles.highest
 
         
 
