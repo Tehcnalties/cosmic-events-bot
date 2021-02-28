@@ -24,7 +24,7 @@ module.exports = {
                     let str = curr.content.trim()
                     if(str.length > 500) str = str.substring(0, 499) + '...'
 
-                    const strF = curr.author.username + ' ' + str + '\n'
+                    const strF = '[' + curr.author.tag + '] ' + str + '\n'
                     fs.appendFile('./logs/purge.log', strF, function (err) {
                         if (err) client.logger.error(err)
                     })
