@@ -6,19 +6,26 @@ module.exports = {
     guildOnly: true,
     async execute(client, message, args) {
       const promptTitle = new Discord.MessageEmbed() 
-        .setDescription('Enter the `title` of your custom embed\n(Type `null` if you do not want a title)');
+        .setDescription('Enter the `title` of your custom embed\n(Type `null` if you do not want a title)')
+        .setColor('#c186ff');
       const promptDescription = new Discord.MessageEmbed() 
-        .setDescription('Enter the `description` of your customembed\n(Type `null` if you do not want a description)');
+        .setDescription('Enter the `description` of your customembed\n(Type `null` if you do not want a description)')
+        .setColor('#c186ff');
       const promptFooter = new Discord.MessageEmbed() 
-        .setDescription('Enter the `footer` of your custom embed\n(Type `null` if you do not want a footer)');
+        .setDescription('Enter the `footer` of your custom embed\n(Type `null` if you do not want a footer)')
+        .setColor('#c186ff');
       const promptTimestamp = new Discord.MessageEmbed() 
-        .setDescription('Do you want a `timestamp`\n(Enter `Y or N`)');
+        .setDescription('Do you want a `timestamp`\n(Enter `Y or N`)')
+        .setColor('#c186ff');
       const promptThumbnail = new Discord.MessageEmbed()
         .setDescription('Enter a `discord media link` for your thumbnail\n(Type `null` if you do not want a thumbnail)')
+        .setColor('#c186ff');
       const promptImage = new Discord.MessageEmbed()
         .setDescription('Enter a `discord media link` for your `IMG/GIF`\n(Type `null` if you do not want an IMG/GIF)')
+        .setColor('#c186ff');
       const promptColor = new Discord.MessageEmbed() 
-        .setDescription('Enter the `color` of your custom embed\n(Type `null` if you want a blank color)');
+        .setDescription('Enter the `color` of your custom embed\n(Type `null` if you want a blank color)')
+        .setColor('#c186ff');
       
       const prompts = [promptTitle, promptDescription, promptFooter, promptTimestamp, promptThumbnail, promptImage, promptColor]
       let question = 0;
