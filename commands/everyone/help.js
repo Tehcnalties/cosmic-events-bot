@@ -43,7 +43,7 @@ module.exports = {
             .setDescription(`To view more information on a specific command, do \`${prefix}help [command name]\`.`)
             .addField('Admin Commands', '`prefix`\n`modlog`\n`status`\n`updatestatus`')
             .addField('Basic Commands', '`help`\n`rules`')
-            .addField('Moderator Commands', '`ban`\n`kick`\n`purge`\n`slowmode`\n`unban`')
+            .addField('Moderator Commands', '`ban`\n`kick`\n`purge`\n`slowmode`\n`unban`\n`embed`')
             .setColor('C279FF')
             .setFooter('Cosmic Events')
             .setTimestamp()
