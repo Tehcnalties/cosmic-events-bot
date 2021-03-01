@@ -46,19 +46,16 @@ module.exports = {
         const { commands } = message.client
 
         if(!args.length) {
-            //help.push('**General Commands:**\n')
             commands.forEach((command) => {
                 if(command.category === 'developer') return
                 if(command.category !== 'general') return
                 general.push(`\`${command.name}\`\n`)
             })
-            //help.push('\n**Moderation Commands:**\n')
             commands.forEach((command) => {
                 if(command.category === 'developer') return
                 if(command.category !== 'moderator') return
                 moderation.push(`\`${command.name}\`\n`)
             })
-            //help.push('\n**Admin Commands:**\n')
             commands.forEach((command) => {
                 if(command.category === 'developer') return
                 if(command.category !== 'admin') return
