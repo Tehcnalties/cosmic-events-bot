@@ -5,6 +5,7 @@ const Guild = require('../../models/guild')
 module.exports = {
     name: 'punishmentchannel',
     category: 'admin',
+    description: 'Sets the logging channel for punishments',
     args: true,
     guildOnly: true,
     aliases: ['modlog'],

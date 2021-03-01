@@ -6,6 +6,7 @@ const config = require('../../config.json')
 module.exports = {
     name: 'status',
     category: 'admin',
+    description: 'Sets the bot\'s custom prefix',
     args: true,
     guildOnly: true,
     usage: '[PLAYING/WATCHING/STREAMING] [Message]',

@@ -5,7 +5,8 @@ const { execute } = require('../moderation/kick')
 
 module.exports = {
     name: 'help',
-    categroy: 'general',
+    category: 'general',
+    description: 'Shows this message',
     args: false,
     guildOnly: false,
     aliases: ['commands'],
@@ -39,16 +40,56 @@ module.exports = {
         prefix = settings.prefix
         }
 
-        const help = new Discord.MessageEmbed()
-            .setTitle('Commands')
-            .setDescription(`To view more information on a specific command, do \`${prefix}help [command name]\`.`)
-            .addField('Admin Commands', '`prefix`\n`modlog`\n`status`\n`updatestatus`')
-            .addField('Basic Commands', '`help`\n`rules`')
-            .addField('Moderator Commands', '`ban`\n`kick`\n`purge`\n`slowmode`\n`unban`\n`embed`')
-            .setColor('C279FF')
+        const general = []
+        const moderation = []
+        const admin = []
+        const { commands } = message.client
+
+        if(!args.length) {
+            //help.push('**General Commands:**\n')
+            commands.forEach((command) => {
+                if(command.category === 'developer') return
+                if(command.category !== 'general') return
+                general.push(`\`${command.name}\`\n`)
+            })
+            //help.push('\n**Moderation Commands:**\n')
+            commands.forEach((command) => {
+                if(command.category === 'developer') return
+                if(command.category !== 'moderator') return
+                moderation.push(`\`${command.name}\`\n`)
+            })
+            //help.push('\n**Admin Commands:**\n')
+            commands.forEach((command) => {
+                if(command.category === 'developer') return
+                if(command.category !== 'admin') return
+                admin.push(`\`${command.name}\`\n`)
+            })
+
+            return message.channel.send(
+                new Discord.MessageEmbed()
+                    .setTitle('Command Help')
+                    .setDescription(`To see more information on commands, do \`${prefix}help [command name]\` to view more information.`)
+                    .addField('General Commands', general.join(' '), true)
+                    .addField('Moderation Commands', moderation.join(' '), true)
+                    .addField('Admin Commands', admin.join(' '), true)
+                    .setColor('c186ff')
+                    .setFooter('Cosmic Events')
+                    .setTimestamp()
+            )
+        } 
+        const name = args[0].toLowerCase();
+        const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
+
+        const commandHelp = new Discord.MessageEmbed()
+            .setTitle(`${command.name}`)
+            .setColor('c186ff')
             .setFooter('Cosmic Events')
             .setTimestamp()
-        
-        message.channel.send(help)
+
+        if(command.aliases) commandHelp.addField('Aliases', `\`${command.aliases.join(', ')}\``)
+        if(command.description) commandHelp.setDescription(command.description)
+        if(command.usage) commandHelp.addField('Usage:', `\`${prefix}${command.name} ${command.usage}\``)
+
+        message.channel.send(commandHelp)
     }
 }

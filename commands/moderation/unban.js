@@ -2,6 +2,8 @@ const Discord = require('discord.js')
 
 module.exports = {
     name: 'unban',
+    category: 'moderator',
+    description: 'Unbans a user from the server',
     args: true,
     guildOnly: true,
     usage: '[User ID]',

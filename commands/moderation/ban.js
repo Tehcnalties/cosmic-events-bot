@@ -5,6 +5,8 @@ const Guild = require('../../models/guild')
 
 module.exports = {
     name: 'ban',
+    category: 'moderator',
+    description: 'Bans a specific player',
     args: true,
     guildOnly: true,
     usage: '[Member] [Reason]',

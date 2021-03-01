@@ -4,6 +4,8 @@ const Guild = require('../../models/guild')
 
 module.exports = {
     name: 'kick',
+    category: 'moderator',
+    description: 'Kicks a player from the server',
     args: true,
     guildOnly: true,
     usage: '[Member] [reason]',

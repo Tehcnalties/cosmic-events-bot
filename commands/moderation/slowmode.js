@@ -2,7 +2,9 @@ const Discord = require('discord.js')
 
 module.exports = {
     name: 'slowmode',
-    aliases: 'sm',
+    category: 'moderator',
+    description: 'Sets the channel slowmode',
+    aliases: ['sm'],
     usage: '[Seconds]',
     args: true,
     guildOnly: true,

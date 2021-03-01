@@ -3,6 +3,7 @@ const fs = require('fs')
 
 module.exports = {
     name: 'purge',
+    category: 'moderator',
     description: 'Clears the specified number of messages',
     guildOnly: true,
     args: true,

@@ -2,7 +2,8 @@ const Discord = require('discord.js')
 
 module.exports = {
     name: 'embed',
-    category: 'general',
+    category: 'moderator',
+    description: 'Generates a custom embed',
     args: false,
     guildOnly: true,
     async execute(client, message, args) {

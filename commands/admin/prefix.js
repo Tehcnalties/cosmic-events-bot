@@ -6,6 +6,7 @@ const config = require('../../config.json')
 module.exports = {
     name: 'prefix',
     category: 'admin',
+    description: 'Sets the server prefix',
     args: false,
     guildOnly: true,
     usage: '[New Prefix]',
