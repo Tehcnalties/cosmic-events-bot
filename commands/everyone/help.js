@@ -80,6 +80,8 @@ module.exports = {
         const name = args[0].toLowerCase();
         const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
 
+        if(!command) return message.reply(`couldn't find that command! Try doing \`${prefix}help\` to view all of the available commands.`)
+
         const commandHelp = new Discord.MessageEmbed()
             .setTitle(`${command.name}`)
             .setColor('c186ff')
