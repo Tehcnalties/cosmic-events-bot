@@ -1,10 +1,10 @@
 const Discord = require('discord.js')
 module.exports = {
-    name: 'alertMaintenance',
+    name: 'alertmaintenance',
     category: 'developer',
     description: 'Warns staff about bot maintenance',
     args: true,
-    guildOnly: false,
+    guildOnly: true,
     async execute(client, message, args) {
         const alertMaintenance = new Discord.MessageEmbed() 
             .setTitle('Maintenance Alert')
@@ -12,6 +12,6 @@ module.exports = {
             .setColor('#c186ff')
             .setFooter('Cosmic Events')
             .setTimestamp(msg.createdTimestamp);
-        msg.channel.send(alertMaintenance);
+        message.channel.send(alertMaintenance);
 }
 }
