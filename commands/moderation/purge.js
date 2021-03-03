@@ -1,5 +1,7 @@
 const Discord = require('discord.js')
 const fs = require('fs')
+const mongoose = require('mongoose')
+const Guild = require('../../models/guild')
 
 module.exports = {
     name: 'purge',
@@ -10,7 +12,33 @@ module.exports = {
     cooldown: 2,
     aliases: ['clear', 'delmsg'],
     usage: '[amount to clear]',
-    execute(client, message, args) {
+    async execute(client, message, args) {
+        const settings = await Guild.findOne({
+            guildID: message.guild.id
+        }, (err, guild) => {
+            if(err) client.logger.error(err)
+            if(!guild) {
+                const newGuild = new Guild({
+                    _id: mongoose.Types.ObjectId(),
+                    guildID: message.guild.id,
+                    guildName: message.guild.name,
+                    prefix: config.prefix,
+                    modlogID: '',
+                    mutedID: '',
+                    messagelogID: '',
+                    suggestionID: '',
+                    autoroleID: '',
+                    welcomeChannel: ''
+                })
+    
+                newGuild.save()
+                    .then(result => client.logger.log(result))
+                    .catch(err => client.logger.error(err))
+            }
+        })
+
+        const msglogID = settings.messagelogID
+
         if(message.member.hasPermission('MANAGE_MESSAGES')) {
             const deleteCount = args[0]
             message.channel.messages.fetch({
@@ -45,8 +73,11 @@ module.exports = {
                         .setFooter('botston')
                         .attachFiles(['./logs/purge.log'])
                     
-                    if(!(message.guild.channels.cache.find(ch => ch.name.toLowerCase() === 'deleted-messages'))) return message.channel.send('Please create a channel called `deleted-messages` to log purge logs!')
-                    message.guild.channels.cache.find(ch => ch.name.toLowerCase() === 'deleted-messages').send(logEmbed)
+                        if(!settings.messagelogID) {
+                            message.channel.send(`You do not have a message logs channel set yet! Use \`${settings.prefix}msglog\` to set one.`)
+                        } else {
+                            message.guild.channels.cache.get(msglogID).send(logEmbed).catch(err => client.logger.error(err))
+                        }
                 }).catch(error => message.reply('There was an error while deleting the messages!'))
             }).catch(err => client.logger.error(err))
         } else return message.channel.send(':x: You can\'t use this command!')
