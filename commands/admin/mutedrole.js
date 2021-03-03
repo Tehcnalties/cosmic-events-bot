@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
 const Guild = require('../../models/guild')
 const Discord = require('discord.js')
-const { execute } = require('../moderation/kick')
+const config = require('../../config.json')
 
 module.exports = {
-    name: 'autorole',
-    description: 'Sets the role given automatically upon joining',
+    name: 'mutedrole',
+    description: 'Sets the role given when muting someone',
     category: 'admin',
     args: true,
     guildOnly: true,
@@ -48,14 +48,14 @@ module.exports = {
                     .then(result => client.logger.log(result))
                     .catch(err => client.logger.error(err))
 
-                return message.channel.send(':x: Your server was not registered in our database, and was just registered. Run this command again to set the autorole.')
+                return message.channel.send(':x: Your server was not registered in our database, and was just registered. Run this command again to set the muted role.')
             }
         })
 
         await settings.updateOne({
-            autoroleID: role
-        }).then(result => client.logger.log(`Updated autorole for ${message.guild.name} (${message.guild.id})`)).catch(err => client.logger.error(err))
+            mutedID: role
+        }).then(result => client.logger.log(`Updated muted role for ${message.guild.name} (${message.guild.id})`)).catch(err => client.logger.error(err))
 
-        return message.channel.send(`AUtorole has been set to ${role}.`)
+        return message.channel.send(`Muted role has been set to ${role}.`)
     }
 }

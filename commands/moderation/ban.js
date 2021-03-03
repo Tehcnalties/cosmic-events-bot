@@ -28,7 +28,12 @@ module.exports = {
                     guildID: message.guild.id,
                     guildName: message.guild.name,
                     prefix: config.prefix,
-                    modlogID: ''
+                    modlogID: '',
+                    mutedID: '',
+                    messagelogID: '',
+                    suggestionID: '',
+                    autoroleID: '',
+                    welcomeChannel: ''
                 })
     
                 newGuild.save()
@@ -64,8 +69,6 @@ module.exports = {
         // Highest role check
         // const authorHighest = message.member.cache.roles.highest
         // const userHighest = mmember.cache.roles.highest
-
-        
 
         if(!message.guild.member(user).bannable) return message.channel.send(':x: I can\'t ban this user!')
         user.send(`You have been banned from \`${message.guild.name}\` with reason: ${reason}.`).catch(() => client.logger.log(`Can't send DM to ${user.username}!`))

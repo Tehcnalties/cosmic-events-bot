@@ -23,7 +23,12 @@ module.exports = {
                     guildID: message.guild.id,
                     guildName: message.guild.name,
                     prefix: config.prefix,
-                    modlogID: ''
+                    modlogID: '',
+                    mutedID: '',
+                    messagelogID: '',
+                    suggestionID: '',
+                    autoroleID: '',
+                    welcomeChannel: ''
                 })
 
                 newGuild.save()

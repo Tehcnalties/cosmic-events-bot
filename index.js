@@ -26,15 +26,18 @@ for (const folder of commandFolders) {
 }
 client.logger.log(`Loading a total of ${commandLength} commands.`)
 
+let eventLength = 0
 const eventDir = path.resolve('events')
 fs.readdir(eventDir, (err, files) => {
     if(err) return client.logger.error(err)
     files.forEach(file => {
+        eventLength += 1
         const event = require(`./events/${file}`)
         const eventName = file.split('.')[0]
         client.on(eventName, event.bind(null, client))
     })
 })
+client.logger.log(`Loading a total of ${eventLength} events.`)
 
 client.mongoose.init();
 client.login(token)

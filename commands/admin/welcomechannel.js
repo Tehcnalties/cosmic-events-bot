@@ -3,12 +3,12 @@ const mongoose = require('mongoose')
 const Guild = require('../../models/guild')
 
 module.exports = {
-    name: 'punishmentchannel',
+    name: 'welcomechannel',
     category: 'admin',
-    description: 'Sets the logging channel for punishments',
+    description: 'Sets the welcome channel for new members',
     args: true,
     guildOnly: true,
-    aliases: ['modlog'],
+    aliases: ['setwelcome'],
     usage: '[Channel]',
     async execute(client, message, args) {
         if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(':x: You are missing the necessary permissions `ADMINISTRATOR` to use this command!')
@@ -27,26 +27,26 @@ module.exports = {
                     guildID: message.guild.id,
                     guildName: message.guild.name,
                     prefix: config.prefix,
-                    modlogID: channel.id,
+                    modlogID: '',
                     mutedID: '',
                     messagelogID: '',
                     suggestionID: '',
                     autoroleID: '',
-                    welcomeChannel: ''
+                    welcomeChannel: channel.id
                 })
 
                 await newGuild.save()
                     .then(result => client.logger.log(result))
                     .catch(err => client.logger.error(err))
 
-                return message.channel.send(`Moderation logging channel has been set to ${channel}.`)
+                return message.channel.send(`Welcome channel has been set to ${channel}.`)
             }
             
             await settings.updateOne({
-                modlogID: channel.id
-            }).then(result => client.logger.log(`Updated moderation logging channel for ${message.guild.name} (${message.guild.id})`)).catch(err => client.logger.error(err))
+                welcomeChannel: channel.id
+            }).then(result => client.logger.log(`Updated welcome channel for ${message.guild.name} (${message.guild.id})`)).catch(err => client.logger.error(err))
 
-            return message.channel.send(`Moderation logging channel has been set to ${channel}.`)
+            return message.channel.send(`Welcome channel has been set to ${channel}.`)
         })
     }
 }
