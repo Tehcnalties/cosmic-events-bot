@@ -65,6 +65,7 @@ module.exports = {
         if(!reason) {
             reason = 'No reason specified'
         }
+        if (message.member.cache.roles.highest.position < mmember.cache.roles.highest.position) return message.channel.send('You cannot ban someone with a higher role than you.')
 
         // Highest role check
         // const authorHighest = message.member.cache.roles.highest

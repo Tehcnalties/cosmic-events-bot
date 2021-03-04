@@ -22,6 +22,7 @@ module.exports = {
         const params = message.content.split(' ').slice(1)
         let user = message.mentions.users.first()
         let reason = params.slice(1).join(' ')
+        const mmember = message.mentions.members.first()
 
         const settings = await Guild.findOne({
             guildID: message.guild.id
@@ -69,6 +70,8 @@ module.exports = {
         if(!reason) {
             reason = 'No reason specified'
         }
+        if (message.member.roles.highest.position < mmember.roles.highest.position) return message.channel.send('You cannot kick someone with a higher role than you.')
+
         if(!message.guild.member(user).kickable) return message.channel.send(':x: I can\'t kick this user!')
         user.send(`You have been kicked from \`${message.guild.name}\` with reason: ${reason}.\nRejoin the server at ${invite}.`).catch(() => client.logger.log(`Can't send DM to ${user.username}!`))
         message.guild.member(user).kick(`${message.author.username} - ${reason}`)
