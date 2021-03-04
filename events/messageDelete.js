@@ -28,6 +28,8 @@ module.exports = async (client, message) => {
         }
     })
 
+    if(!message.content) return
+
     const messageLogID = settings.messagelogID
     const delmsgEmbed = new Discord.MessageEmbed()
         .setTitle('🗑️ Message Deleted')

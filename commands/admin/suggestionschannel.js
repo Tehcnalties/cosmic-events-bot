@@ -4,12 +4,11 @@ const Guild = require('../../models/guild')
 const config = require('../../config.json')
 
 module.exports = {
-    name: 'messagelog',
+    name: 'suggestionschannel',
     category: 'admin',
-    description: 'Sets the logging channel for deleted and edited messages',
+    description: 'Sets the suggestions channel',
     args: true,
     guildOnly: true,
-    aliases: ['msglog'],
     usage: '[Channel]',
     async execute(client, message, args) {
         if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(':x: You are missing the necessary permissions `ADMINISTRATOR` to use this command!')
@@ -30,8 +29,8 @@ module.exports = {
                     prefix: config.prefix,
                     modlogID: '',
                     mutedID: '',
-                    messagelogID: channel.id,
-                    suggestionID: '',
+                    messagelogID: '',
+                    suggestionID: channel.id,
                     autoroleID: '',
                     welcomeChannel: ''
                 })
@@ -40,14 +39,14 @@ module.exports = {
                     .then(result => client.logger.log(result))
                     .catch(err => client.logger.error(err))
 
-                return message.channel.send(`Message logging channel has been set to ${channel}.`)
+                return message.channel.send(`Suggestions channel has been set to ${channel}.`)
             }
             
             await settings.updateOne({
-                messagelogID: channel.id
-            }).then(result => client.logger.log(`Updated message logging channel for ${message.guild.name} (${message.guild.id})`)).catch(err => client.logger.error(err))
+                suggestionID: channel.id
+            }).then(result => client.logger.log(`Updated suggestions channel for ${message.guild.name} (${message.guild.id})`)).catch(err => client.logger.error(err))
 
-            return message.channel.send(`Message logging channel has been set to ${channel}.`)
+            return message.channel.send(`Suggestions channel has been set to ${channel}.`)
         })
     }
 }
