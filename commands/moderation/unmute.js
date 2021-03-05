@@ -1,14 +1,15 @@
 const mongoose = require('mongoose')
 const Guild = require('../../models/guild')
 const Discord = require('discord.js')
+const { execute } = require('./kick')
 
 module.exports = {
-    name: 'mute',
+    name: 'unmute',
     category: 'moderator',
-    description: 'Mutes the chosen member',
+    description: 'unmutes the chosen member',
     args: true,
     guildOnly: true,
-    usage: '[Member] [reason]',
+    usage: '[Member]',
     async execute(client, message, args) {
         if(!(message.member.hasPermission('KICK_MEMBERS'))) return message.channel.send(':x: You can\'t use this command!')
 
@@ -38,14 +39,11 @@ module.exports = {
             }
         })
 
-        const logChannelID = settings.modlogID
         const mutedRoleID = settings.mutedID
-
-        if(!mutedRoleID) return message.channel.send(`You haven't set a muted role yet! Do \`${settings.prefix}mutedrole\` to set the muted role.`)
+        const logChannelID = settings.modlogID
 
         let user = message.mentions.users.first();
         const userMember = message.mentions.members.first()
-        let reason = args.slice(1).join(' ')
         const params = message.content.split(' ').slice(1)
 
         if (!user) {
@@ -61,38 +59,30 @@ module.exports = {
             }
         }
 
-        if(userMember.roles.cache.has(mutedRoleID)) return message.channel.send(':x: This user is already muted!')
-        if(user === message.author) return message.channel.send('Why are you trying to mute yourself?')
-        if(user === undefined) return message.channel.send('Please specify a user!')
-        if(!reason) {
-            reason = 'No reason specified'
+        if(!userMember.roles.cache.has(mutedRoleID)) return message.channel.send(':x: This user is not muted!')
+        if(userMember.roles.cache.has(mutedRoleID)) {
+            userMember.roles.remove(mutedRoleID).catch(err => {
+                client.logger.error(err)
+                message.channel.send(`Couldn't mute ${user}!`)
+                return
+            })
+            message.channel.send(`:white_check_mark: Unmuted ${user} successfully!`)
         }
 
-        const muteEmbed = new Discord.MessageEmbed()
-            .setColor('RED')
+        const unmuteEmbed = new Discord.MessageEmbed()
+            .setColor('GREEN')
             .setThumbnail(user.avatarURL())
-            .setAuthor(`${user.username} has been muted!`)
-            .addField('Person muted:', `${user.username}`, true)
-            .addField('muted by:', `${message.author}`, true)
-            .addField('Reason:', `${reason}`, true)
+            .setAuthor(`${user.username} has been unmuted.`)
+            .addField('Person unmuted:', `${user.username}`, true)
+            .addField('Unmuted by:', `${message.author}`, true)
             .addField('User ID:', `${user.id}`)
+            .setFooter('Cosmic Events')
             .setTimestamp()
-
-
-        let muteRole = message.guild.roles.cache.get(mutedRoleID);
-
-        userMember.roles.add(muteRole).catch(err => {
-            client.logger.error(err)
-            message.channel.send(`Couldn't mute ${user}!`)
-            return
-        })
-        user.send(`You have been muted in \`${message.guild.name}\` with reason: ${reason}.`).catch(() => client.logger.log(`Couldn't send DM to user ${user.username}`))
-        message.channel.send(`${user} has been muted.`);
 
         if(!settings.modlogID) {
             message.channel.send(`You do not have a punishment logs channel set yet! Use \`${settings.prefix}modlog\` to set one.`)
         } else {
-            message.guild.channels.cache.get(logChannelID).send(muteEmbed).catch(err => client.logger.error(err))
+            message.guild.channels.cache.get(logChannelID).send(unmuteEmbed).catch(err => client.logger.error(err))
         }
     }
-};
+}
