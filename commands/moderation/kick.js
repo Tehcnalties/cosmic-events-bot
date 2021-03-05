@@ -70,7 +70,7 @@ module.exports = {
         if(!reason) {
             reason = 'No reason specified'
         }
-        if (message.member.roles.highest.position < mmember.roles.highest.position) return message.channel.send('You cannot kick someone with a higher role than you.')
+        // if (message.member.roles.highest.position < mmember.roles.highest.position) return message.channel.send('You cannot kick someone with a higher role than you.')
 
         if(!message.guild.member(user).kickable) return message.channel.send(':x: I can\'t kick this user!')
         user.send(`You have been kicked from \`${message.guild.name}\` with reason: ${reason}.\nRejoin the server at ${invite}.`).catch(() => client.logger.log(`Can't send DM to ${user.username}!`))

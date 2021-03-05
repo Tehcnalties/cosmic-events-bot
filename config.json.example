@@ -1,5 +1,6 @@
 {
     "prefix":"",
+    "beta_token":"",
     "token": "",
     "mongodb_uri": "",
     "default_color": ""
