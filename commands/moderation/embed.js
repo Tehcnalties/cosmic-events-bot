@@ -7,6 +7,7 @@ module.exports = {
     args: false,
     guildOnly: true,
     async execute(client, message, args) {
+      if(!message.member.hasPermission('MANAGE_CHANNELS')) return message.channel.send(':x: You can\'t use this command!')
       const promptTitle = new Discord.MessageEmbed() 
         .setDescription('Enter the `title` of your custom embed\n(Type `null` if you do not want a title)')
         .setColor('#c186ff');

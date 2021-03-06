@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
 
 const token = config.token
 
-const client = new Discord.Client();
+const client = new Discord.Client({partials: ["MESSAGE", "CHANNEL", "REACTION"]});
 client.commands = new Discord.Collection();
 const commandFolders = fs.readdirSync('./commands');
 client.mongoose = require('./utils/mongoose')
