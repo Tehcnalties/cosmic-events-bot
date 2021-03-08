@@ -43,6 +43,7 @@ module.exports = {
         const general = []
         const moderation = []
         const admin = []
+        const points = []
         const { commands } = message.client
 
         if(!args.length) {
@@ -61,6 +62,11 @@ module.exports = {
                 if(command.category !== 'admin') return
                 admin.push(`\`${command.name}\`\n`)
             })
+            commands.forEach((command) => {
+                if(command.category === 'developer') return
+                if(command.category !== 'points') return
+                points.push(`\`${command.name}\`\n`)
+            })
 
             return message.channel.send(
                 new Discord.MessageEmbed()
@@ -69,6 +75,7 @@ module.exports = {
                     .addField('General Commands', general.join(' '), true)
                     .addField('Moderation Commands', moderation.join(' '), true)
                     .addField('Admin Commands', admin.join(' '), true)
+                    .addField('Point Commands', points.join(' '), true)
                     .setColor('c186ff')
                     .setFooter('Cosmic Events')
                     .setTimestamp()

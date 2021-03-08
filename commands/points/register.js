@@ -5,6 +5,7 @@ const { execute } = require('../moderation/kick')
 
 module.exports = {
     name: 'register',
+    category: 'points',
     args: false,
     guildOnly: true,
     description: 'Registers you into the points system',

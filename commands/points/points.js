@@ -5,12 +5,14 @@ const { execute } = require('../moderation/kick')
 
 module.exports = {
     name: 'points',
+    category: 'points',
     args: true,
     guildOnly: true,
     usage: '[User] [Action]',
     description: 'Manage points for players',
     async execute(client, message, args) {
         let mentionedMember = message.mentions.users.first()
+        if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(':x: You are lacking the necessary permission `ADMINISTRATOR` to run this command!')
 
         if(!mentionedMember) {
             await client.users.fetch(args[0]).then((user) => {
