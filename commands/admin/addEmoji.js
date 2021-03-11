@@ -4,6 +4,7 @@ module.exports = {
     description: 'Adds an emoji to the server',
     usage: 'addemoji [url/path/buffer] [name]',
     async execute(client, message, args, Discord) {
+       if(message.member.hasPermission('MANAGE_EMOJIS')) {
         const emoji = args[0]
         var name = args[1]
         if(!emoji) {
@@ -33,5 +34,8 @@ module.exports = {
             }
             message.channel.send(successEmojiEmbed)
         }
+       }
+        else {
+            return message.channel.send(':x: You are lacking the necessary permissions `MANAGE_EMOJIS` to use this command!');
     }
 }
