@@ -34,8 +34,7 @@ module.exports = async (client, oldMessage, newMessage) => {
         !newMessage.guild ||
         oldMessage.author.bot ||
         newMessage.author.bot
-      )
-        return;
+    ) return;
 
     const messageLogID = settings.messagelogID
     const editmsgEmbed = new Discord.MessageEmbed()

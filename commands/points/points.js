@@ -12,7 +12,7 @@ module.exports = {
     description: 'Manage points for players',
     async execute(client, message, args) {
         let mentionedMember = message.mentions.users.first()
-        if(!message.member.hasPermission('MANAGE_GUILD')) return message.channel.send(':x: You are lacking the necessary permission `MAANGER_SERVER` to run this command!')
+        if(!message.member.hasPermission('MANAGE_GUILD')) return message.channel.send(':x: You are lacking the necessary permission `MANAGE_SERVER` to run this command!')
 
         if(!mentionedMember) {
             await client.users.fetch(args[0]).then((user) => {

@@ -15,6 +15,8 @@ module.exports = {
     async execute(client, message, args) {
         const playerName = args[0]
 
+        if(isValidName(playerName) === false) return message.channel.send('That\'s not a valid IGN!')
+
         const settings = await Guild.findOne({
             guildID: message.guild.id
         }, (err, guild) => {
@@ -66,5 +68,14 @@ module.exports = {
                 }
             })
         })
+    }
+}
+
+function isValidName(string) {
+    let validCharacters = /^[0-9a-zA-Z_]+$/
+    if(string.match(validCharacters)) {
+        return true
+    } else {
+        return false
     }
 }
