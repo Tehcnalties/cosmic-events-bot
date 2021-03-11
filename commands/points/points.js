@@ -8,11 +8,11 @@ module.exports = {
     category: 'points',
     args: true,
     guildOnly: true,
-    usage: '[User] [Action]',
+    usage: '[User] [add/remove]',
     description: 'Manage points for players',
     async execute(client, message, args) {
         let mentionedMember = message.mentions.users.first()
-        if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send(':x: You are lacking the necessary permission `ADMINISTRATOR` to run this command!')
+        if(!message.member.hasPermission('MANAGE_GUILD')) return message.channel.send(':x: You are lacking the necessary permission `MAANGER_SERVER` to run this command!')
 
         if(!mentionedMember) {
             await client.users.fetch(args[0]).then((user) => {
@@ -35,6 +35,8 @@ module.exports = {
             let addNumber = args[2]
             let balance = points.balance
 
+            if(!addNumber) return message.channel.send(':x: Please specify a number to add!')
+
             if(Number.isInteger(addNumber)) return message.channel.send(':x: That\'s not a whole number!')
             if(addNumber < 1) return message.channel.send(':x: You can\'t add a negative value!')
 
@@ -50,6 +52,8 @@ module.exports = {
         } else if(args[1].toLowerCase() === 'remove' || args[1].toLowerCase() === 'subtract') {
             let removeNumber = args[2]
             let balance = points.balance
+
+            if(!removeNumber) return message.channel.send(':x: Please specify a number to remove!')
 
             if(Number.isInteger(removeNumber)) return message.channel.send(':x: That\'s not a whole number!')
             if(removeNumber < 1) return message.channel.send(':x: You can\'t remove a negative value!')

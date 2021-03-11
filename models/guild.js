@@ -10,7 +10,8 @@ const guildSchema = mongoose.Schema({
     messagelogID: String,
     suggestionID: String,
     autoroleID: String,
-    welcomeChannel: String
+    welcomeChannel: String,
+    verifiedRole: String
 })
 
 module.exports = mongoose.model('Guild', guildSchema, 'guilds')

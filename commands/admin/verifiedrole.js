@@ -4,8 +4,8 @@ const Discord = require('discord.js')
 const { execute } = require('../moderation/kick')
 
 module.exports = {
-    name: 'autorole',
-    description: 'Sets the role given automatically upon joining',
+    name: 'verifiedrole',
+    description: 'Sets the role given when verified',
     category: 'admin',
     args: true,
     guildOnly: true,
@@ -54,9 +54,9 @@ module.exports = {
         })
 
         await settings.updateOne({
-            autoroleID: role
-        }).then(result => client.logger.log(`Updated autorole for ${message.guild.name} (${message.guild.id})`)).catch(err => client.logger.error(err))
+            verifiedRole: role
+        }).then(result => client.logger.log(`Updated verified role for ${message.guild.name} (${message.guild.id})`)).catch(err => client.logger.error(err))
 
-        return message.channel.send(`Autorole has been set to ${role}.`)
+        return message.channel.send(`Verified role has been set to ${role}.`)
     }
 }

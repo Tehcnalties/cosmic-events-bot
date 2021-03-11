@@ -32,7 +32,8 @@ module.exports = {
                     messagelogID: '',
                     suggestionID: '',
                     autoroleID: '',
-                    welcomeChannel: ''
+                    welcomeChannel: '',
+                    verifiedRole: ''
                 })
 
                 await newGuild.save()

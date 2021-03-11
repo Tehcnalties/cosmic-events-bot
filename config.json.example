@@ -3,5 +3,6 @@
     "beta_token":"",
     "token": "",
     "mongodb_uri": "",
+    "hypixel_api_key": "",
     "default_color": ""
 }

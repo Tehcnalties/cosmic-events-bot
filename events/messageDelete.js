@@ -19,7 +19,8 @@ module.exports = async (client, message) => {
                 messagelogID: '',
                 suggestionID: '',
                 autoroleID: '',
-                welcomeChannel: ''
+                welcomeChannel: '',
+                verifiedRole: ''
             })
 
             newGuild.save()
