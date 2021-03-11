@@ -36,6 +36,6 @@ module.exports = {
         }
        }
         else {
-            return message.channel.send(':x: You are lacking the necessary permissions `MANAGE_EMOJIS` to use this command!');
+            message.channel.send(':x: You are lacking the necessary permissions `MANAGE_EMOJIS` to use this command!');
     }
 }
