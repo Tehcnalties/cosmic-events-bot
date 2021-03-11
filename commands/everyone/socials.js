@@ -4,12 +4,12 @@ const fetch = require('node-fetch')
 const Discord = require('discord.js')
 
 module.exports = {
-    name: 'player',
+    name: 'socials',
     category: 'general',
     args: true,
     guildOnly: true,
     usage: '[IGN]',
-    description: 'Shows you the Hypixel information on a player',
+    description: 'Shows you the socials of a player',
     aliases: ['playerinfo'],
     async execute(client, message, args) {
         const playerName = args[0]
@@ -66,38 +66,31 @@ module.exports = {
                     prefix = 'NON'
                 }
 
+                let twitter = resultJSON.links.TWITTER
+                let youtube = resultJSON.links.YOUTUBE
+                let instagram = resultJSON.links.INSTAGRAM
+                let twitch = resultJSON.links.TWITCH
+                let discord = resultJSON.links.DISCORD
+                let hypixel = resultJSON.links.HYPIXEL
 
-                let firstLogin = resultJSON.first_login
-                let lastLogin = resultJSON.last_login
-                let lastLogout = resultJSON.last_logout
-
-                if(!resultJSON.first_login) {
-                    firstLogin = 0
-                }
-                if(!resultJSON.last_login) {
-                    lastLogin = 0
-                }
-                if(!resultJSON.last_logout) {
-                    lastLogout = 0
-                }
-
-                let firstLoginFormatted = timeConverter(firstLogin)
-                let lastLoginFormatted = timeConverter(lastLogin)
-                let lastLogoutFormatted = timeConverter(lastLogout)
+                if(!twitter) twitter = 'Not Linked'
+                if(!youtube) youtube = 'Not Linked'
+                if(!instagram) instagram = 'Not Linked'
+                if(!twitch) twitch = 'Not Linked'
+                if(!discord) discord = 'Not Linked'
+                if(!hypixel) hypixel = 'Not Linked'
 
                 let playerInfoEmbed = new Discord.MessageEmbed()
                     .setTitle(`[${prefix}] ${playerNameCases}`)
                     .setThumbnail(`https://crafatar.com/renders/body/${playerUUID}?overlay`)
-                    .setDescription(`Player information for ${playerNameCases} (\`${playerUUID}\`)`)
+                    .setDescription(`Socials for ${playerNameCases} (\`${playerUUID}\`)`)
+                    .addField('Twitter', twitter)
+                    .addField('Youtube', youtube)
+                    .addField('Instagram', instagram)
+                    .addField('Twitch', twitch)
+                    .addField('Discord', discord)
+                    .addField('Hypixel', hypixel)
                     .setColor(embedColor)
-                    .addField('Rank', playerRank, true)
-                    .addField('Level', resultJSON.level.toLocaleString(), true)
-                    .addField('Karma', resultJSON.karma.toLocaleString(), true)
-                    .addField('First Login', firstLoginFormatted, true)
-                    .addField('Last Login', lastLoginFormatted, true)
-                    .addField('Last Logout', lastLogoutFormatted, true)
-                    .addField('Achievement Points', resultJSON.achievement_points.toLocaleString(), true)
-                    .addField('Quests Completed', resultJSON.quests_completed.toLocaleString(), true)
                     .setFooter('Cosmic Events')
                     .setTimestamp()
 
@@ -114,25 +107,4 @@ function isValidName(string) {
     } else {
         return false
     }
-}
-
-function timeConverter(UNIX_timestamp){
-    var a = new Date(UNIX_timestamp);
-    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    var year = a.getFullYear();
-    var month = months[a.getMonth()];
-    var date = a.getDate();
-    var hour = a.getHours();
-    var min = a.getMinutes();
-    var sec = a.getSeconds();
-
-    if(min < 10) {
-        min = '0' + min
-    }
-    if(sec < 10) {
-        sec = '0' + sec
-    }
-
-    var time = month + ' ' + date + ', ' + year + '; ' + hour + ':' + min + ':' + sec ;
-    return time;
 }

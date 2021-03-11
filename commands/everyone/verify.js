@@ -9,6 +9,7 @@ const guild = require('../../models/guild')
 module.exports = {
     name: 'verify',
     description: 'Verifies the user',
+    category: 'general',
     args: true,
     guildOnly: true,
     usage: '[IGN]',
