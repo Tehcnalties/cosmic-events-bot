@@ -4,12 +4,13 @@ const fetch = require('node-fetch')
 const Discord = require('discord.js')
 
 module.exports = {
-    name: 'socials',
+    name: 'bedwars',
     category: 'general',
     args: true,
     guildOnly: true,
     usage: '[IGN]',
-    description: 'Shows you the socials of a player',
+    description: 'Shows you the bedwars stats of a player',
+    aliases: ['bw'],
     async execute(client, message, args) {
         const playerName = args[0]
 
@@ -65,35 +66,38 @@ module.exports = {
                     prefix = 'NON'
                 }
 
-                let twitter = resultJSON.links.TWITTER
-                let youtube = resultJSON.links.YOUTUBE
-                let instagram = resultJSON.links.INSTAGRAM
-                let twitch = resultJSON.links.TWITCH
-                let discord = resultJSON.links.DISCORD
-                let hypixel = resultJSON.links.HYPIXEL
+                let coins = resultJSON.stats.BedWars.coins.toLocaleString()
+                let bwStars = resultJSON.stats.BedWars.level.toLocaleString()
+                let winsTotal = resultJSON.stats.BedWars.wins.toLocaleString()
+                let kills = resultJSON.stats.BedWars.kills.toLocaleString()
+                let deaths = resultJSON.stats.BedWars.deaths.toLocaleString()
+                let killDeath = resultJSON.stats.BedWars.k_d.toLocaleString()
+                let winLose = resultJSON.stats.BedWars.w_l.toLocaleString()
+                let bedBreak = resultJSON.stats.BedWars.beds_broken.toLocaleString()
+                let killsFinal = resultJSON.stats.BedWars.final_kills.toLocaleString()
+                let killDeathFinal = resultJSON.stats.BedWars.final_k_d.toLocaleString()
+                let winstreak = resultJSON.stats.BedWars.winstreak.toLocaleString()
 
-                if(!twitter) twitter = 'Not Linked'
-                if(!youtube) youtube = 'Not Linked'
-                if(!instagram) instagram = 'Not Linked'
-                if(!twitch) twitch = 'Not Linked'
-                if(!discord) discord = 'Not Linked'
-                if(!hypixel) hypixel = 'Not Linked'
-
-                let playerInfoEmbed = new Discord.MessageEmbed()
-                    .setTitle(`[${prefix}] ${playerNameCases}`)
+                const bwStats = new Discord.MessageEmbed()
+                    .setTitle(`Bedwars stats for [${prefix}] ${playerNameCases}`)
                     .setThumbnail(`https://crafatar.com/renders/body/${playerUUID}?overlay`)
-                    .setDescription(`Socials for ${playerNameCases} (\`${playerUUID}\`)`)
-                    .addField('Twitter', twitter)
-                    .addField('Youtube', youtube)
-                    .addField('Instagram', instagram)
-                    .addField('Twitch', twitch)
-                    .addField('Discord', discord)
-                    .addField('Hypixel', hypixel)
+                    .setDescription(`Now showing statiscs for ${playerNameCases} (\`${playerUUID}\`)`)
                     .setColor(embedColor)
+                    .addField('Total Coins', coins, true)
+                    .addField('Stars', bwStars, true)
+                    .addField('Wins', winsTotal, true)
+                    .addField('Win/Lose Ratio', winLose, true)
+                    .addField('Beds Broken', bedBreak, true)
+                    .addField('Current Winstreak', winstreak, true)
+                    .addField('Kills', kills, true)
+                    .addField('Deaths', deaths, true)
+                    .addField('Kill/Death Ratio', killDeath, true)
+                    .addField('Final Kills', killsFinal, true)
+                    .addField('Final Kill/Death Ratio', killDeathFinal, true)
                     .setFooter('Cosmic Events')
                     .setTimestamp()
 
-                message.channel.send(playerInfoEmbed)
+                message.channel.send(bwStats)
             })
         })
     }
