@@ -1,8 +1,11 @@
 const Discord = require('discord.js')
 module.exports = {
     name: 'addemoji',
+    category: 'admin',
+    args: true,
+    guildOnly: true,
     description: 'Adds an emoji to the server',
-    usage: 'addemoji [url/path/buffer] [name]',
+    usage: '[url/path/buffer] [name]',
     async execute(client, message, args, Discord) {
        if(message.member.hasPermission('MANAGE_EMOJIS')) {
         const emoji = args[0]
@@ -37,5 +40,6 @@ module.exports = {
        }
         else {
             message.channel.send(':x: You are lacking the necessary permissions `MANAGE_EMOJIS` to use this command!');
+        }
     }
 }

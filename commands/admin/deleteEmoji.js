@@ -1,8 +1,11 @@
 const Discord = require('discord.js')
 module.exports = {
     name: 'deleteemoji',
+    args: true,
+    guildOnly: true,
+    category: 'admin',
     description: 'Deletes an emoji from the server',
-    usage: 'deleteEmoji [emoji/name]',
+    usage: '[emoji/name]',
     async execute(client, message, args, Discord) {
         const noArgsEmbed = new Discord.MessageEmbed() 
             .setTitle('Command Error')
