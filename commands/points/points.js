@@ -47,7 +47,7 @@ module.exports = {
             }).then(result => client.logger.log(`Updated points for ${mentionedMember}.`)).catch(err => client.logger.error(err))
 
             client.users.fetch(mentionedMember).then((user) => {
-                message.channel.send(`Updated points balance for ${user.tag}.\n\n**Old Balance:** ${balance}\n**New Balance:** ${newBalance}`)
+                message.channel.send(`Updated points balance for ${user.tag} (\`${user.id}\`).\n\n**Old Balance:** ${balance}\n**New Balance:** ${newBalance}`)
             })
         } else if(args[1].toLowerCase() === 'remove' || args[1].toLowerCase() === 'subtract') {
             let removeNumber = args[2]
@@ -66,7 +66,15 @@ module.exports = {
             }).then(result => client.logger.log(`Updated points for ${mentionedMember}.`)).catch(err => client.logger.error(err))
 
             client.users.fetch(mentionedMember).then((user) => {
-                message.channel.send(`Updated points balance for ${user.tag}.\n\n**Old Balance:** ${balance}\n**New Balance:** ${newBalance}`)
+                message.channel.send(`Updated points balance for ${user.tag} (\`${user.id}\`).\n\n**Old Balance:** ${balance}\n**New Balance:** ${newBalance}`)
+            })
+        } else if(args[1].toLowerCase() === 'reset') {
+            await points.updateOne({
+                balance: 0
+            }).then(result => client.logger.log(`Reset points for ${user.tag}.`)).catch(err => client.logger.error(err))
+
+            client.users.fetch(mentionedMember).then((user) => {
+                message.channel.send(`Reset points balance for ${user.tag} (\`${user.id}\`) to 0 points.`)
             })
         }
     }
