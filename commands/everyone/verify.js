@@ -46,7 +46,7 @@ module.exports = {
         })
 
         if(!settings.verifiedRole) return message.channel.send(':x: This server has not set a verified role yet.')
-        if(message.member.roles.cache.has(settings.verifiedRole)) return message.channel.send(':x: You are already verified!')
+        //if(message.member.roles.cache.has(settings.verifiedRole)) return message.channel.send(':x: You are already verified!')
 
         const socials = fetch(`https://api.slothpixel.me/api/players/${playerName}?key=${apikey}`).then(result => {
             result.json().then(async resultJSON => {

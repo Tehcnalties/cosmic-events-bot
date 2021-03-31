@@ -13,10 +13,17 @@ module.exports = {
     async execute(client, message, args) {
         if(!(message.member.hasPermission('BAN_MEMBERS'))) return message.channel.send(':x: You can\'t use this command!')
 
-        const params = message.content.split(' ').slice(1)
-        let user = message.mentions.users.first()
-        const mmember = message.mentions.members.first()
-        let reason = params.slice(1).join(' ')
+        let reason = args.slice(1).join(' ')
+        let mentionedUser = message.mentions.users.first()
+        let mentionedMember = message.mentions.members.first()
+
+        if(!mentionedUser) {
+            await client.users.fetch(args[0]).then((user) => {
+                mentionedUser = args[0]
+            }).catch(err => message.channel.send(':x: Not a valid user ID!'))
+        } else if(mentionedUser) {
+            mentionedUser = mentionedUser.id
+        }
 
         const settings = await Guild.findOne({
             guildID: message.guild.id
@@ -47,50 +54,40 @@ module.exports = {
 
         const logChannelID = settings.modlogID
 
-        // Check if an user mention exists in this message
-        if (!user) {
-            try {
-                // Check if a valid userID has been entered instead of a Discord user mention
-                if (!message.guild.members.cache.get(params.slice(0, 1).join(' '))) throw new Error('Can\'t find a member with that userID')
-                // If the client (bot) can get a user with this userID, it overwrites the current user variable to the user object that the client fetched
-                user = message.guild.members.cache.get(params.slice(0, 1).join(' '))
-                user = user.user
-            } catch (error) {
-                return message.reply('Can\'t find a member with that user ID!')
+        
+
+        if(mentionedUser === message.author.id) return message.channel.send(':x: You cannot ban yourself.')
+        if(mentionedUser === message.guild.ownerid) return message.channel.send(':x: You cannot ban the guild owner.')
+        await message.guild.members.fetch(mentionedUser).then((member) => {
+            if(message.member.roles.highest.comparePositionTo(member.roles.highest) < 1) return message.channel.send(':x: Your role is not high enough to ban this member.')
+        })
+        if(!reason) reason = 'No reason given'
+
+        const member = message.guild.members.cache.get(mentionedUser)
+        if(!member.bannable) return message.channel.send(':x: You cannot ban that user.')
+
+        member.ban({
+            reason: `${message.author.tag} - ${reason}`
+        })
+
+        client.users.fetch(mentionedUser).then((user) => {
+            const banEmbed = new Discord.MessageEmbed()
+                .setColor('RED')
+                .setThumbnail(user.avatarURL())
+                .setAuthor(`${user.username} has been banned!`)
+                .addField('Person banned:', `${user.username}`, true)
+                .addField('Banned by:', `${message.author}`, true)
+                .addField('Reason:', `${reason}`, true)
+                .addField('User ID:', `${user.id}`)
+                .setTimestamp()
+
+            message.channel.send(`${user} has been banned!`)
+
+            if(!settings.modlogID) {
+                message.channel.send(`You do not have a punishment logs channel set yet! Use \`${settings.prefix}modlog\` to set one.`)
+            } else {
+                message.guild.channels.cache.get(logChannelID).send(banEmbed).catch(err => client.logger.error(err))
             }
-        }
-
-        if(user === message.guild.owner) return message.channel.send('You can\'t ban the owner!')
-        if(user === message.author) return message.channel.send('Why are you trying to ban yourself?')
-        if(user === undefined) return message.channel.send('Please specify a user!')
-        if(!reason) {
-            reason = 'No reason specified'
-        }
-        // if (message.member.cache.roles.highest.position < mmember.cache.roles.highest.position) return message.channel.send('You cannot ban someone with a higher role than you.')
-
-        // Highest role check
-        // const authorHighest = message.member.cache.roles.highest
-        // const userHighest = mmember.cache.roles.highest
-
-        if(!message.guild.member(user).bannable) return message.channel.send(':x: I can\'t ban this user!')
-        user.send(`You have been banned from \`${message.guild.name}\` with reason: ${reason}.`).catch(() => client.logger.log(`Can't send DM to ${user.username}!`))
-        message.guild.members.ban(user)
-        const banEmbed = new Discord.MessageEmbed()
-            .setColor('RED')
-            .setThumbnail(user.avatarURL())
-            .setAuthor(`${user.username} has been banned!`)
-            .addField('Person banned:', `${user.username}`, true)
-            .addField('Banned by:', `${message.author}`, true)
-            .addField('Reason:', `${reason}`, true)
-            .addField('User ID:', `${user.id}`)
-            .setTimestamp()
-
-        message.channel.send(`${user} has been banned!`)
-
-        if(!settings.modlogID) {
-            message.channel.send(`You do not have a punishment logs channel set yet! Use \`${settings.prefix}modlog\` to set one.`)
-        } else {
-            message.guild.channels.cache.get(logChannelID).send(banEmbed).catch(err => client.logger.error(err))
-        }
+        })
     }
 }

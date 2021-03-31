@@ -11,6 +11,7 @@ module.exports = {
     usage: '[IGN]',
     description: 'Shows you the bedwars stats of a player',
     aliases: ['bw'],
+    cooldown: 50,
     async execute(client, message, args) {
         const playerName = args[0]
 

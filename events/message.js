@@ -3,6 +3,7 @@ const { time } = require('console');
 const config = require('../config.json')
 const mongoose = require('mongoose')
 const Guild = require('../models/guild')
+const BlackList = require('../models/blacklist')
 
 module.exports = async (client, message) => {
     const cooldowns = new Discord.Collection();
@@ -11,19 +12,19 @@ module.exports = async (client, message) => {
     if(message.guild === null) {
         prefix = config.prefix
     } else {
-            const settings = await Guild.findOne({
-        guildID: message.guild.id
-    }, (err, guild) => {
-        if(err) client.logger.error(err)
-        if(!guild) {
-            const newGuild = new Guild({
-                _id: mongoose.Types.ObjectId(),
-                guildID: message.guild.id,
-                guildName: message.guild.name,
-                prefix: config.prefix,
-                modlogID: ''
-            })
-
+        const settings = await Guild.findOne({
+            guildID: message.guild.id
+        }, (err, guild) => {
+            if(err) client.logger.error(err)
+            if(!guild) {
+                const newGuild = new Guild({
+                    _id: mongoose.Types.ObjectId(),
+                    guildID: message.guild.id,
+                    guildName: message.guild.name,
+                    prefix: config.prefix,
+                    modlogID: ''
+                })
+                
             newGuild.save()
                 .then(result => client.logger.log(result))
                 .catch(err => client.logger.error(err))
@@ -34,6 +35,22 @@ module.exports = async (client, message) => {
 
     prefix = settings.prefix
     }
+
+    // const blackListSettings = await BlackList.findOne({
+    //     userID: message.author.id
+    // }, (err, user) => {
+    //     if(err) client.logger.error(err)
+    //     if(!user) return;
+    //     if(user) {
+    //         const blackListedUser = blackListSettings.userID
+    //         const blackListReason = blackListSettings.reason
+    //         if(message.author.id === blackListedUser) return message.channel.send(`You have been blacklisted from using this bot with reason: ${blackListReason}.`);
+    //     }
+    // })
+
+    
+
+    
 
     const args = message.content
         .slice(prefix.length)
