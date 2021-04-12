@@ -23,6 +23,8 @@ module.exports = {
                 let playerRank = ''
                 let embedColor = ''
                 let prefix = ''
+
+                if(playerNameCases === 'Ameston') return message.channel.send(`\`Ameston\` has never player Hypixel before, try something else!`)
                 
                 if(resultJSON.rank === 'VIP') {
                     playerRank = 'VIP'

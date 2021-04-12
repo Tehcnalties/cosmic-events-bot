@@ -4,14 +4,14 @@ const mongoose = require('mongoose')
 const Guild = require('../../models/guild')
 
 module.exports = {
-    name: 'ban',
+    name: 'kick',
     category: 'moderator',
-    description: 'Bans a specific player',
+    description: 'Kicks a specific player',
     args: true,
     guildOnly: true,
     usage: '[Member] [Reason]',
     async execute(client, message, args) {
-        if(!(message.member.hasPermission('BAN_MEMBERS'))) return message.channel.send(':x: You can\'t use this command!')
+        if(!(message.member.hasPermission('KICK_MEMBERS'))) return message.channel.send(':x: You can\'t use this command!')
 
         let reason = args.slice(1).join(' ')
         let mentionedUser = message.mentions.users.first()
@@ -56,37 +56,36 @@ module.exports = {
 
         
 
-        if(mentionedUser === message.author.id) return message.channel.send(':x: You cannot ban yourself.')
-        if(mentionedUser === message.guild.ownerid) return message.channel.send(':x: You cannot ban the guild owner.')
+        if(mentionedUser === message.author.id) return message.channel.send(':x: You cannot kick yourself.')
+        if(mentionedUser === message.guild.ownerid) return message.channel.send(':x: You cannot kick the guild owner.')
         // message.guild.members.fetch(mentionedUser).then((member) => {
         //     if(message.member.roles.highest.comparePositionTo(member.roles.highest) < 1) return message.channel.send(':x: Your role is not high enough to ban this member.')
         // })
         if(!reason) reason = 'No reason given'
 
         const member = message.guild.members.cache.get(mentionedUser)
-        if(!member.bannable) return message.channel.send(':x: You cannot ban that user.')
+        if(!member.kickable) return message.channel.send(':x: You cannot kick that user.')
 
-        member.ban({
+        member.kick({
             reason: `${message.author.tag} - ${reason}`
         })
 
         client.users.fetch(mentionedUser).then((user) => {
-            const banEmbed = new Discord.MessageEmbed()
-                .setColor('RED')
-                .setThumbnail(user.avatarURL())
-                .setAuthor(`${user.username} has been banned!`)
-                .addField('Person banned:', `${user.username}`, true)
-                .addField('Banned by:', `${message.author}`, true)
-                .addField('Reason:', `${reason}`, true)
-                .addField('User ID:', `${user.id}`)
-                .setTimestamp()
+            const kickEmbed = new Discord.MessageEmbed()
+            .setColor('RED')
+            .setThumbnail(user.avatarURL())
+            .setAuthor(`${user.username} has been kicked!`)
+            .addField('Person kicked:', `${user.username}`, true)
+            .addField('Kicked by:', `${message.author}`, true)
+            .addField('Reason:', `${reason}`, true)
+            .setTimestamp()
 
-            message.channel.send(`${user} has been banned!`)
+            message.channel.send(`${user} has been kicked!`)
 
             if(!settings.modlogID) {
                 message.channel.send(`You do not have a punishment logs channel set yet! Use \`${settings.prefix}modlog\` to set one.`)
             } else {
-                message.guild.channels.cache.get(logChannelID).send(banEmbed).catch(err => client.logger.error(err))
+                message.guild.channels.cache.get(logChannelID).send(kickEmbed).catch(err => client.logger.error(err))
             }
         })
     }
